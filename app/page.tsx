@@ -100,7 +100,7 @@ export default function Home() {
                 <h2 className="text-3xl font-bold text-white mb-2">Авторизация</h2>
                 <p className="text-gray-400 text-sm mb-8">Войди, чтобы попасть в свой профиль</p>
                 
-                <form onSubmit={(e) => { e.preventDefault(); setShowAuthModal(false); /* тут будет переход в ЛК */ }}>
+                <form onSubmit={(e) => { e.preventDefault(); window.location.href = "/dashboard"; }}>
                   <div className="mb-4">
                     <input type="text" placeholder="Введите ваш логин или почту" required className="w-full bg-[#121218] border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-purple-500 transition-colors" />
                   </div>
