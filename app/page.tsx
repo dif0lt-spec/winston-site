@@ -60,15 +60,13 @@ export default function Home() {
           </span>
         </div>
         <div className="hidden md:flex gap-8 text-sm text-gray-400 font-medium">
-          <a href="#features" className="hover:text-purple-300 transition-colors">Возможности</a>
-          <a href="#pricing" className="hover:text-purple-300 transition-colors">Подписка</a>
-          <a href="#support" className="hover:text-purple-300 transition-colors">Поддержка</a>
+          <a href="#features" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 transition-colors">Возможности</a>
+          <a href="#pricing" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 transition-colors">Подписка</a>
+          <a href="#support" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 transition-colors">Поддержка</a>
         </div>
         <div className="flex gap-4">
-          <button className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Войти</button>
-          <button className="bg-purple-600/20 border border-purple-500/50 text-purple-300 hover:bg-purple-600/40 text-sm font-medium py-2 px-5 rounded-lg transition-all shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-            Купить
-          </button>
+          <a href="https://google.com" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-gray-300 hover:text-white transition-colors py-2 px-3">Войти</a>
+          <a href="https://google.com" target="_blank" rel="noopener noreferrer" className="bg-purple-600/20 border border-purple-500/50 text-purple-300 hover:bg-purple-600/40 text-sm font-medium py-2 px-5 rounded-lg transition-all shadow-[0_0_15px_rgba(168,85,247,0.2)]">Купить</a>
         </div>
       </nav>
 
@@ -90,16 +88,26 @@ export default function Home() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-          <button className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 px-10 rounded-xl transition-all shadow-[0_0_40px_rgba(168,85,247,0.5)] hover:shadow-[0_0_60px_rgba(168,85,247,0.7)] border border-purple-400/50">
+          <a 
+            href="https://google.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 px-10 rounded-xl transition-all shadow-[0_0_40px_rgba(168,85,247,0.5)] hover:shadow-[0_0_60px_rgba(168,85,247,0.7)] border border-purple-400/50 text-center"
+          >
             Скачать лаунчер
-          </button>
-          <button className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-4 px-10 rounded-xl transition-all backdrop-blur-md">
+          </a>
+          <a 
+            href="#pricing" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-4 px-10 rounded-xl transition-all backdrop-blur-md text-center"
+          >
             Купить подписку
-          </button>
+          </a>
         </motion.div>
       </section>
 
-      {/* Секция фич (Glass Cards) */}
+      {/* Секция фич */}
       <section id="features" className="relative z-10 max-w-7xl mx-auto mt-40 px-8 pb-32">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Всё, что нужно для игры</h2>
@@ -121,6 +129,59 @@ export default function Home() {
               <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Секция цен (Pricing) */}
+      <section id="pricing" className="relative z-10 max-w-7xl mx-auto px-8 pb-32">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Выбери свой тариф</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">Оплата через СБП, Сбербанк или Т-Банк. Доступ активируется моментально после оплаты.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          
+          {/* Тариф 1: Месяц */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-white/[0.02] border border-white/10 p-8 rounded-2xl flex flex-col backdrop-blur-sm relative">
+            <h3 className="text-xl font-bold mb-2">На 30 дней</h3>
+            <p className="text-gray-400 text-sm mb-6">Отличный старт для знакомства</p>
+            <div className="text-4xl font-black mb-6">299 <span className="text-lg text-gray-400 font-medium">₽</span></div>
+            <ul className="text-sm text-gray-300 space-y-3 mb-8 flex-1">
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Все визуалы</li>
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Автообновления</li>
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Поддержка 24/7</li>
+            </ul>
+            <a href="https://google.com" target="_blank" rel="noopener noreferrer" className="block text-center w-full bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl font-semibold transition-all">Купить</a>
+          </motion.div>
+
+          {/* Тариф 2: Навсегда (Выделенный) */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="bg-gradient-to-b from-purple-900/20 to-white/[0.02] border border-purple-500/50 p-8 rounded-2xl flex flex-col backdrop-blur-sm relative shadow-[0_0_40px_rgba(168,85,247,0.15)] md:-translate-y-4">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Популярный</div>
+            <h3 className="text-xl font-bold mb-2">Навсегда</h3>
+            <p className="text-gray-400 text-sm mb-6">Купи один раз и забудь</p>
+            <div className="text-4xl font-black mb-6">1490 <span className="text-lg text-gray-400 font-medium">₽</span></div>
+            <ul className="text-sm text-gray-300 space-y-3 mb-8 flex-1">
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Все визуалы</li>
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Автообновления</li>
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Поддержка 24/7</li>
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Доступ к новым фичам</li>
+            </ul>
+            <a href="https://google.com" target="_blank" rel="noopener noreferrer" className="block text-center w-full bg-purple-600 hover:bg-purple-500 text-white py-3 rounded-xl font-semibold transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)]">Купить навсегда</a>
+          </motion.div>
+
+          {/* Тариф 3: Год */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="bg-white/[0.02] border border-white/10 p-8 rounded-2xl flex flex-col backdrop-blur-sm relative">
+            <h3 className="text-xl font-bold mb-2">На 1 год</h3>
+            <p className="text-gray-400 text-sm mb-6">Для тех, кто играет долго</p>
+            <div className="text-4xl font-black mb-6">990 <span className="text-lg text-gray-400 font-medium">₽</span></div>
+            <ul className="text-sm text-gray-300 space-y-3 mb-8 flex-1">
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Все визуалы</li>
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Автообновления</li>
+              <li className="flex items-center gap-2"><span className="text-purple-400">✓</span> Поддержка 24/7</li>
+            </ul>
+            <a href="https://google.com" target="_blank" rel="noopener noreferrer" className="block text-center w-full bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl font-semibold transition-all">Купить</a>
+          </motion.div>
+
         </div>
       </section>
 
