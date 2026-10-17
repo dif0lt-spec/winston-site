@@ -9,11 +9,11 @@ export default function Home() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  // Эффект загрузки: через 2.5 секунды скрываем лоадер
+  // Таймер загрузки (3.5 секунды, чтобы анимация успела проиграться)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2500);
+    }, 3500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -56,39 +56,43 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050508]"
           >
-            <div className="flex items-center gap-4 overflow-hidden">
-              {/* Логотип выезжает слева */}
+            <div className="flex items-center gap-0">
+              {/* Логотип: появляется большим, затем сжимается */}
               <motion.div
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative w-16 h-16"
+                initial={{ scale: 3, opacity: 0, x: 0 }}
+                animate={{ scale: 1, opacity: 1, x: 0 }}
+                transition={{ 
+                  scale: { duration: 1.5, times: [0, 0.4, 1], ease: "easeInOut" }, 
+                  opacity: { duration: 0.5 } 
+                }}
+                className="relative w-16 h-16 flex-shrink-0"
               >
                 <Image
                   src="/logo.png"
                   alt="Logo"
-                  width={64}
-                  height={64}
-                  className="object-contain drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]"
+                  fill
+                  className="object-contain"
                   unoptimized
                 />
               </motion.div>
 
-              {/* Текст выезжает справа */}
-              <motion.span
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-                className="text-3xl font-bold tracking-wide text-white"
+              {/* Текст: выезжает справа после сжатия лого */}
+              <motion.div
+                initial={{ width: 0, opacity: 0, x: -20 }}
+                animate={{ width: "auto", opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1.2, ease: "easeOut" }}
+                className="overflow-hidden whitespace-nowrap"
               >
-                Winston Visual
-              </motion.span>
+                <span className="text-3xl font-bold tracking-wide text-white pl-4">
+                  Winston Visual
+                </span>
+              </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ===== ОСНОВНОЙ САЙТ (появляется после загрузки) ===== */}
+      {/* ===== ОСНОВНОЙ САЙТ ===== */}
       <main className="min-h-screen bg-[#050508] text-white overflow-hidden relative selection:bg-purple-500/30 font-sans">
         
         {/* Модальное окно оплаты */}
@@ -126,7 +130,7 @@ export default function Home() {
         <nav className="relative z-10 flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 relative flex items-center justify-center">
-              <Image src="/logo.png" alt="Logo" width={48} height={48} className="object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]" unoptimized />
+              <Image src="/logo.png" alt="Logo" width={48} height={48} className="object-contain" unoptimized />
             </div>
             <span className="font-bold text-xl tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-fuchsia-400">Winston Visual</span>
           </div>
@@ -145,7 +149,7 @@ export default function Home() {
         <section className="relative z-10 flex flex-col items-center justify-center text-center mt-24 px-4 max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <span className="text-purple-400 font-semibold tracking-widest uppercase text-xs mb-4 block border border-purple-500/30 bg-purple-500/10 py-1 px-3 rounded-full w-max mx-auto backdrop-blur-sm">Welcome to the Future</span>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-tight">Твой мир.<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-purple-600 drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">Твои правила.</span></h1>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-tight">Твой мир.<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-purple-600">Твои правила.</span></h1>
             <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">Winston Visuals — лаконичный клиент для тех, кто ценит стиль, скорость и комфорт в каждой детали. Полный контроль над визуалом.</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -164,7 +168,7 @@ export default function Home() {
             {[ { title: "TargetESP", desc: "Умный рендер цели с облетом и свечением. Ни одна цель не уйдет." }, { title: "Chams", desc: "Визуализация сущностей сквозь стены с настройкой цвета и фильтров." }, { title: "NameTags", desc: "Красивые никнеймы, HP-полоски и дистанция над головой." } ].map((feature, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl hover:bg-white/[0.05] hover:border-purple-500/30 transition-all group backdrop-blur-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-[50px] group-hover:bg-purple-500/20 transition-all" />
-                <div className="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-lg flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(168,85,247,0.1)]"><div className="w-6 h-6 bg-purple-400 rounded-sm shadow-[0_0_10px_rgba(168,85,247,0.8)]" /></div>
+                <div className="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-lg flex items-center justify-center mb-6"><div className="w-6 h-6 bg-purple-400 rounded-sm" /></div>
                 <h3 className="text-xl font-bold mb-3 text-gray-100">{feature.title}</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
               </motion.div>
