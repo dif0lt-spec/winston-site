@@ -2,23 +2,49 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const response = await fetch("https://formspree.io/f/mnpjwkjd", {
+        method: "POST",
+        body: data,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (response.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      setStatus("error");
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[#050508] text-white overflow-hidden relative selection:bg-purple-500/30 font-sans">
       
-      {/* Стеклянные волны на фоне (Glassmorphism blobs) */}
+      {/* Стеклянные волны на фоне */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-20%] left-[20%] w-[800px] h-[400px] bg-violet-900/20 rounded-full blur-[150px] pointer-events-none" />
       
-      {/* Стеклянная сетка поверх фона */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none mix-blend-overlay"></div>
 
       {/* Навигация */}
       <nav className="relative z-10 flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
         <div className="flex items-center gap-3">
-          {/* Логотип */}
           <div className="w-12 h-12 relative flex items-center justify-center">
             <Image 
               src="/logo.png" 
@@ -48,11 +74,7 @@ export default function Home() {
 
       {/* Главный экран (Hero) */}
       <section className="relative z-10 flex flex-col items-center justify-center text-center mt-24 px-4 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <span className="text-purple-400 font-semibold tracking-widest uppercase text-xs mb-4 block border border-purple-500/30 bg-purple-500/10 py-1 px-3 rounded-full w-max mx-auto backdrop-blur-sm">
             Welcome to the Future
           </span>
@@ -63,17 +85,11 @@ export default function Home() {
             </span>
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
-            Winston Visuals — лаконичный клиент для тех, кто ценит стиль, 
-            скорость и комфорт в каждой детали. Полный контроль над визуалом.
+            Winston Visuals — лаконичный клиент для тех, кто ценит стиль, скорость и комфорт в каждой детали. Полный контроль над визуалом.
           </p>
         </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
           <button className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 px-10 rounded-xl transition-all shadow-[0_0_40px_rgba(168,85,247,0.5)] hover:shadow-[0_0_60px_rgba(168,85,247,0.7)] border border-purple-400/50">
             Скачать лаунчер
           </button>
@@ -96,17 +112,8 @@ export default function Home() {
             { title: "Chams", desc: "Визуализация сущностей сквозь стены с настройкой цвета и фильтров." },
             { title: "NameTags", desc: "Красивые никнеймы, HP-полоски и дистанция над головой." },
           ].map((feature, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl hover:bg-white/[0.05] hover:border-purple-500/30 transition-all group backdrop-blur-sm relative overflow-hidden"
-            >
-              {/* Внутреннее свечение карточки */}
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl hover:bg-white/[0.05] hover:border-purple-500/30 transition-all group backdrop-blur-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-[50px] group-hover:bg-purple-500/20 transition-all" />
-              
               <div className="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-lg flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
                 <div className="w-6 h-6 bg-purple-400 rounded-sm shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
               </div>
@@ -117,7 +124,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Футер */}
+      {/* Секция поддержки */}
+      <section id="support" className="relative z-10 max-w-3xl mx-auto px-8 pb-32">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Служба поддержки</h2>
+          <p className="text-gray-400">Возникли вопросы или проблемы? Напишите нам, и мы ответим в ближайшее время.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl backdrop-blur-sm">
+          <div className="mb-6">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Ваш Email</label>
+            <input type="email" id="email" name="email" required className="w-full bg-black/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-purple-500 transition-colors" placeholder="you@example.com" />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">Сообщение</label>
+            <textarea id="message" name="message" required rows={5} className="w-full bg-black/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-purple-500 transition-colors resize-none" placeholder="Опишите вашу проблему..."></textarea>
+          </div>
+          
+          <button type="submit" disabled={status === "sending"} className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] disabled:opacity-50 disabled:cursor-not-allowed">
+            {status === "sending" ? "Отправка..." : "Отправить сообщение"}
+          </button>
+
+          {status === "success" && (
+            <p className="text-green-400 text-center mt-4">Спасибо! Ваше сообщение отправлено.</p>
+          )}
+          {status === "error" && (
+            <p className="text-red-400 text-center mt-4">Произошла ошибка. Попробуйте позже.</p>
+          )}
+        </form>
+      </section>
+
       <footer className="relative z-10 border-t border-white/5 py-8 text-center text-gray-500 text-sm bg-black/20 backdrop-blur-sm">
         © 2026 Winston Visual. Все права защищены.
       </footer>
